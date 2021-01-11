@@ -2,7 +2,7 @@
 sample.txt
 encrypted.txt
 decrypted.txt
-.xml
+*.xml
 
 /bin/
 

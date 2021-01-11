@@ -36,7 +36,7 @@ public class Aes {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-16")));
         } 
         catch (Exception e) 
         {
@@ -47,7 +47,7 @@ public class Aes {
  
     public static String decrypt(String strToDecrypt, String secret) 
     {
-        try
+    	try
         {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");

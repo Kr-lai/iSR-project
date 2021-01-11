@@ -2,6 +2,9 @@ import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.security.KeyPair;
 import java.util.Scanner; // Import the Scanner class to read text files
 
@@ -9,13 +12,9 @@ public class EncryptionAlgo {
 	private static KeyPair keypair = Asymmetric.generateRSAKkeyPair();
 	private static String symmetricKey = "example-symmetric-key!";
 	
-	public static byte[] EncryptFile(String filename) {
-		String data = "";
-		
-		// For encrypting xml file as byte stream
-		
-		
+	public static byte[] EncryptTextFile(String filename) {
         // For encrypting text file
+		String data = "";
 		try {
 			File myObj = new File(filename);
 			Scanner myReader = new Scanner(myObj);
@@ -27,8 +26,6 @@ public class EncryptionAlgo {
 				}
 				String temp = myReader.nextLine();
 				data += temp;
-				System.out.println("Length of data string: " + Integer.toString(temp.length()));
-				lineCount += 1;
 			}
 	      
 			myReader.close();
@@ -38,8 +35,10 @@ public class EncryptionAlgo {
 			e.printStackTrace();
 	    }
 		
-		String encryptedData = Aes.encrypt(data, symmetricKey);
+		// Encrypt text as String
+		String encryptedData = Aes.encryptText(data, symmetricKey);
 		
+		// Write encrypted text to text file
 		try {
 			File myObj = new File("encrypted.txt");
 			if (myObj.createNewFile()) {
@@ -68,7 +67,28 @@ public class EncryptionAlgo {
 		return Asymmetric.do_RSAEncryption(symmetricKey, keypair.getPrivate());
 	}
 	
-	public static void DecryptFile(String filename, byte[] encryptedSymmetricKey) {
+	public static byte[] EncryptXmlFile(String filename) {
+		// For encrypting xml file as byte stream
+		InputStream xmlInput = null;
+		try {
+			xmlInput = new BufferedInputStream(new FileInputStream(filename));
+			Aes.encryptXML(xmlInput, filename);
+			if (xmlInput != null) {
+				xmlInput.close();
+			}
+		}
+		catch (Exception e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		// Use asymmetric encryption on symmetric aes key
+		return Asymmetric.do_RSAEncryption(symmetricKey, keypair.getPrivate());
+	}
+	
+	public static void DecryptTextFile(String filename, byte[] encryptedSymmetricKey) {
+		// For decrypting text file
 		String data = "";
 		
 		try {
@@ -84,7 +104,7 @@ public class EncryptionAlgo {
 			e.printStackTrace();
 	    }
 		
-		String decryptedData = Aes.decrypt(data, Asymmetric.do_RSADecryption(encryptedSymmetricKey, keypair.getPublic()));
+		String decryptedData = Aes.decryptText(data, Asymmetric.do_RSADecryption(encryptedSymmetricKey, keypair.getPublic()));
 		
 		try {
 			File myObj = new File("english-decrypted.xml");
@@ -110,6 +130,23 @@ public class EncryptionAlgo {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 	    }
+	}
+	
+	public static void DecryptXmlFile(String filename, byte[] encryptedSymmetricKey) {
+		// For decrypting as xml file
+		InputStream encryptedXML = null;
+		try {
+			encryptedXML = new BufferedInputStream(new FileInputStream(filename));
+			Aes.decryptXML(encryptedXML, Asymmetric.do_RSADecryption(encryptedSymmetricKey, keypair.getPublic()));
+			if (encryptedXML != null) {
+				encryptedXML.close();
+			}
+		}
+		catch (Exception e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 }
 

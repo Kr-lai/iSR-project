@@ -38,8 +38,8 @@ public class Main {
 //	    String decryptedText = Asymmetric.do_RSADecryption(cipherText, keypair.getPublic());
 //	
 //	    System.out.println("The decrypted text is: "+ decryptedText);
-		byte[] encryptedSymmetricKey = EncryptionAlgo.EncryptFile("english-xml.xml");
-		EncryptionAlgo.DecryptFile("encrypted.txt", encryptedSymmetricKey);
+		byte[] encryptedSymmetricKey = EncryptionAlgo.EncryptXmlFile("english-xml.xml");
+		EncryptionAlgo.DecryptXmlFile("encrypted.txt", encryptedSymmetricKey);
 	}
 }
 

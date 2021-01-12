@@ -26,6 +26,7 @@ public class EncryptionAlgo {
 				}
 				String temp = myReader.nextLine();
 				data += temp;
+				lineCount += 1;
 			}
 	      
 			myReader.close();
@@ -40,7 +41,7 @@ public class EncryptionAlgo {
 		
 		// Write encrypted text to text file
 		try {
-			File myObj = new File("encrypted.txt");
+			File myObj = new File(filename + "-encrypted.txt");
 			if (myObj.createNewFile()) {
 				System.out.println("Encrypted file created: " + myObj.getName());
 			} 
@@ -54,7 +55,7 @@ public class EncryptionAlgo {
 	    }
 		
 		try {
-			FileWriter myWriter = new FileWriter("encrypted.txt");
+			FileWriter myWriter = new FileWriter(filename + "-encrypted.txt");
 			myWriter.write(encryptedData);
 			myWriter.close();
 			System.out.println("Successfully wrote to the encrypted file.");
@@ -92,7 +93,7 @@ public class EncryptionAlgo {
 		String data = "";
 		
 		try {
-			File myObj = new File(filename);
+			File myObj = new File(filename + "-encrypted.txt");
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine()) {
 				data += myReader.nextLine();
@@ -107,7 +108,7 @@ public class EncryptionAlgo {
 		String decryptedData = Aes.decryptText(data, Asymmetric.do_RSADecryption(encryptedSymmetricKey, keypair.getPublic()));
 		
 		try {
-			File myObj = new File("english-decrypted.xml");
+			File myObj = new File(filename + "-decrypted.txt");
 		      	if (myObj.createNewFile()) {
 		      		System.out.println("Decrypted file created: " + myObj.getName());
 		      	} 
@@ -121,7 +122,7 @@ public class EncryptionAlgo {
 		}
 			
 		try {
-			FileWriter myWriter = new FileWriter("english-decrypted.xml");
+			FileWriter myWriter = new FileWriter(filename + "-decrypted.txt");
 			myWriter.write(decryptedData);
 			myWriter.close();
 			System.out.println("Successfully wrote to the decrypted file.");

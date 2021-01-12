@@ -3,14 +3,12 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
-import java.util.Scanner;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
 
 public class Asymmetric {
 	private static final String RSA = "RSA";
-	private static Scanner sc;
 
 	// Generating public & private keys
 	// using RSA algorithm.

@@ -10,14 +10,11 @@ import java.util.Arrays;
 import java.util.Base64;
  
 import javax.crypto.Cipher;
-import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Aes {
 	private static SecretKeySpec secretKey;
 	private static byte[] key;
-	private static byte[] IV = new byte[16];
-    private static GCMParameterSpec gcmSpec = new GCMParameterSpec(128, IV);
 	
 	public static void setKey(String myKey) 
     {
@@ -71,7 +68,7 @@ public class Aes {
     }
     
     public static void encryptXML(InputStream xmlInput, String secret) {
-    	File outputFile = new File("encrypted.txt");
+    	File outputFile = new File("encrypted-xml.txt");
     	
     	try {
     		OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));

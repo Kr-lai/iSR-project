@@ -65,6 +65,7 @@ public class EncryptionAlgo {
 			e.printStackTrace();
 	    }
 		
+		// Use asymmetric encryption on symmetric aes key and return private key to use for decryption
 		return Asymmetric.do_RSAEncryption(symmetricKey, keypair.getPrivate());
 	}
 	
@@ -84,7 +85,7 @@ public class EncryptionAlgo {
 			System.exit(1);
 		}
 		
-		// Use asymmetric encryption on symmetric aes key
+		// Use asymmetric encryption on symmetric aes key and return private key to use for decryption
 		return Asymmetric.do_RSAEncryption(symmetricKey, keypair.getPrivate());
 	}
 	
@@ -92,6 +93,7 @@ public class EncryptionAlgo {
 		// For decrypting text file
 		String data = "";
 		
+		// Open encrypted text file
 		try {
 			File myObj = new File(filename + "-encrypted.txt");
 			Scanner myReader = new Scanner(myObj);
@@ -105,8 +107,10 @@ public class EncryptionAlgo {
 			e.printStackTrace();
 	    }
 		
+		// Decrypt text
 		String decryptedData = Aes.decryptText(data, Asymmetric.do_RSADecryption(encryptedSymmetricKey, keypair.getPublic()));
 		
+		// Write decrypted text to file
 		try {
 			File myObj = new File(filename + "-decrypted.txt");
 		      	if (myObj.createNewFile()) {
